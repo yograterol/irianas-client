@@ -2,9 +2,18 @@
 Irianas (Client)
 ================
 
-# Maintainers:
+:Info: Irianas is a software for manage servers and clusters.
+:Repository: https://github.com/Irigonzalez/irianas-client
+:Authors: Irisel Gonzalez (http://github.com/irigonzalez) | Yohan Graterol (http://github.com/yograterol)
+:Maintainers: Irisel Gonzalez (http://github.com/irigonzalez) | Yohan Graterol (http://github.com/yograterol)
 
-| Name | E-Mail | Country |
-| --- | --- | --- |
-| Irisel Gonzalez | irisel.gonzalez (at) gmail (dot) com | Venezuela |
-| Yohan Graterol | yograterol (at) fedoraprojec (dot) org | Venezuela |
+
+Installation
+============
+
+    # python setup.py install
+
+Test
+====
+
+    # python setup.py test
