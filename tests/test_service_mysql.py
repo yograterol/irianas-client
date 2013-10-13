@@ -30,3 +30,8 @@ class TestMySQLService(object):
         obj_mysql_config_file.create_config_string()
         assert '[mysqld]' in obj_mysql_config_file.config_string
         assert '[mysqld_safe]' in obj_mysql_config_file.config_string
+
+    def test_config_file_save(self):
+        tmp_path = '/tmp/my.cnf'
+        obj_mysql_config_file.save_file(tmp_path)
+        assert open(tmp_path)

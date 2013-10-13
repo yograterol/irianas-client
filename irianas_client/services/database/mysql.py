@@ -111,6 +111,11 @@ class MySQLConfigFile(object):
                 self.config_string += "{0} = {1}\n".format(key, value)
             self.config_string += "\n\n"
 
+    def save_file(self, path):
+        config_file = open(path, 'a')
+        config_file.write(self.config_string)
+        config_file.close()
+
 
 class MySQLService(object):
     """MySQLService"""
