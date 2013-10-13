@@ -1,18 +1,14 @@
-import sys
-import platform
-import urllib2
-import urllib
-import re
 import yum
 
 
 class YUMWrapper(object):
+
     def info(self, app):
         yb = yum.YumBase()
         if yb.rpmdb.searchNevra(name=app):
-            print "True"
+            return True
         else:
-            print "False"
+            return False
 
     def install(self, app):
         yb = yum.YumBase()
