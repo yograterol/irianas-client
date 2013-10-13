@@ -244,6 +244,17 @@ def test_all():
 
 
 @task
+def run_test():
+    """Perform a style check and run all unit tests."""
+    retcode = _test_all()
+    if retcode == 0:
+        print_passed()
+    else:
+        print_failed()
+    raise SystemExit(retcode)
+
+
+@task
 @consume_args
 def run(args):
     """Run the package's main script. All arguments are passed to it."""
