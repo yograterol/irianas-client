@@ -14,9 +14,15 @@ class ConfigIrianasClient(object):
     """ConfigIrianasClient"""
     path_config_file = '/etc/irianas_config.conf'
 
-    def __init__(self):
+    def __init__(self, test=False):
         super(ConfigIrianasClient, self).__init__()
-        self.load_config()
+        if not test:
+            self.load_config()
+        else:
+            config = ("""mysql-service:
+                      name_package: mysql-server
+                      path_config_file: /etc/my.cnf""")
+            self.config = load(config)
 
     def load_config(self):
         """This method load the config file in YAML syntax."""

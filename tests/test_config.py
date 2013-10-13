@@ -7,10 +7,8 @@ from irianas_client.config import ConfigIrianasClient
 
 
 def create_config():
-    """
-
-    """
-    return ConfigIrianasClient().config
+    """Create the Config object."""
+    return ConfigIrianasClient(test=True).config
 
 
 class TestConfig(object):
