@@ -5,6 +5,7 @@ Irianas (Client)
 :Info: Irianas is a software for manage servers and clusters.
 :Repository: https://github.com/Irigonzalez/irianas-client
 :Authors: Irisel Gonzalez (http://github.com/irigonzalez) | Yohan Graterol (http://github.com/yograterol)
+:IRC: #irianas (Freenode)
 
 Installation
 ============
@@ -14,4 +15,19 @@ Installation
 Test
 ====
 
-    # python setup.py test
+    # paver run_test
+
+Task List
+=========
+
+- [x] Yum wrapper
+- [x] Config file and Config Class (+ Test)
+- [ ] Methods for the service's configuration (+ Test)
+- [ ] Creation Client with Twisted for Connect to Irianas Server (+ Test)
+- [ ] Creation reader for service's log. (+ Test)
+- [ ] API Rest with Twisted for wait orders from Irianas Server, to do changes on the config files services. (+ Test)
+- [ ] Class for basic task on the system (Restart, Shutdown, Monitor System) (+ Test)
+- [ ] API Rest for basic task (+ Test)
+- [ ] Class for events system (Installation software, new updates, etc) (+ Test)
+- [ ] Class for user creation, update and delete.
+- [ ] Class for admin services (Ex: Add VHOST on Apache, Add new user to FTP services) (+ Test)
