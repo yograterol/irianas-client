@@ -87,3 +87,41 @@ params_default = {
         "wait_timeout": 28800
     }
 }
+
+
+class MySQLService(object):
+    """MySQLService"""
+
+    def __init__(self):
+        super(MySQLService, self).__init__()
+
+    def __getattr__(self, attr):
+        if attr in params_valid:
+            return params_default["mysqld"][attr]
+        else:
+            return None
+
+    def __setattr__(self, attr, value):
+        if attr in params_valid:
+            params_default["mysqld"][attr] = value
+
+    def get(self, attr):
+        return self.__getattr__(attr)
+
+    def set(self, attr, value):
+        self.__setattr__(attr, value)
+
+    def save_attr(self):
+        pass
+
+    def get_attr(self):
+        pass
+
+    def restart(self):
+        pass
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
