@@ -89,6 +89,29 @@ params_default = {
 }
 
 
+class MySQLConfigFile(object):
+    """MySQLConfigFile"""
+    config = dict()
+    config_string = ""
+
+    def __init__(self):
+        super(MySQLConfigFile, self).__init__()
+
+    def concat_params_mysqld(self):
+        self.config["mysqld"] = dict(config_basic["mysqld"].items() +
+                                     params_default["mysqld"].items())
+
+    def add_params_mysqld_safe(self):
+        self.config["mysqld_safe"] = config_basic["mysqld_safe"]
+
+    def create_config_string(self):
+        for key_mysql, value_mysql in self.config.iteritems():
+            self.config_string += "[{0}]\n".format(key_mysql)
+            for key, value in value_mysql.iteritems():
+                self.config_string += "{0} = {1}\n".format(key, value)
+            self.config_string += "\n\n"
+
+
 class MySQLService(object):
     """MySQLService"""
 

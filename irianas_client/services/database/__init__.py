@@ -1,3 +1,3 @@
-from mysql import MySQLService
+from mysql import (MySQLService, MySQLConfigFile)
 
-__all__ = [MySQLService, ]
+__all__ = [MySQLService, MySQLConfigFile]
