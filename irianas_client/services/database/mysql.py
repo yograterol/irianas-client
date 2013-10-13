@@ -4,7 +4,7 @@
 #
 
 """
-Config basi for the config file my.cnf
+Config basic for the config file my.cnf
 """
 config_basic = {
     "mysqld":
@@ -112,9 +112,14 @@ class MySQLConfigFile(object):
             self.config_string += "\n\n"
 
     def save_file(self, path):
-        config_file = open(path, 'a')
+        config_file = open(path, 'w')
         config_file.write(self.config_string)
         config_file.close()
+
+    def execute_config(self, path):
+        self.concat_params_mysqld()
+        self.add_params_mysqld_safe()
+        self.save_file(path)
 
 
 class MySQLService(object):
@@ -139,8 +144,9 @@ class MySQLService(object):
     def set(self, attr, value):
         self.__setattr__(attr, value)
 
-    def save_attr(self):
-        pass
+    def save_attr(self, path):
+        obj_mysql_config_file = MySQLConfigFile()
+        obj_mysql_config_file.execute_config(path)
 
     def get_attr(self):
         pass

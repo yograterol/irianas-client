@@ -7,6 +7,8 @@ from irianas_client.services.database import (MySQLService, MySQLConfigFile)
 
 obj_mysql = MySQLService()
 obj_mysql_config_file = MySQLConfigFile()
+tmp_path = '/tmp/my.cnf'
+tmp_path_mysql_service = '/tmp/my_test.cnf'
 
 
 class TestMySQLService(object):
@@ -32,6 +34,9 @@ class TestMySQLService(object):
         assert '[mysqld_safe]' in obj_mysql_config_file.config_string
 
     def test_config_file_save(self):
-        tmp_path = '/tmp/my.cnf'
         obj_mysql_config_file.save_file(tmp_path)
         assert open(tmp_path)
+
+    def test_config_file_from_mysql_service(self):
+        obj_mysql.save_attr(tmp_path_mysql_service)
+        assert open(tmp_path_mysql_service)
