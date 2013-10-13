@@ -1,8 +1,3 @@
-import sys
-import platform
-import urllib2
-import urllib
-import re
 import yum
 
 
