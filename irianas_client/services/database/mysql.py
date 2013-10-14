@@ -119,6 +119,7 @@ class MySQLConfigFile(object):
     def execute_config(self, path):
         self.concat_params_mysqld()
         self.add_params_mysqld_safe()
+        self.create_config_string()
         self.save_file(path)
 
 
