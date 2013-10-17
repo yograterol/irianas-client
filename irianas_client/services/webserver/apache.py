@@ -3,6 +3,7 @@
 # Authors: Irisel Gonzalez <irisel.gonzalez@gmail.com>
 #
 from irianas_client.config.config_services import CreateConfigFile
+from irianas_client.services.commons import CommonService
 
 """
 Config basic for the config file httpd.conf
@@ -958,27 +959,11 @@ config_params = {
 }
 
 
-class HTTPDService(object):
+class HTTPDService(CommonService):
     """HTTPDService"""
 
     def __init__(self):
-        super(HTTPDService, self).__init__()
-
-    def __getattr__(self, attr):
-        if attr in config_params:
-            return config_params[attr]
-        else:
-            return None
-
-    def __setattr__(self, attr, value):
-        if attr in config_params:
-            config_params[attr] = value
-
-    def get(self, attr):
-        return self.__getattr__(attr)
-
-    def set(self, attr, value):
-        self.__setattr__(attr, value)
+        super(HTTPDService, self).__init__(config_params)
 
     def save_attr(self, path):
         create_config = CreateConfigFile()
