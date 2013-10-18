@@ -132,6 +132,49 @@ max_clients={max_clients}
 max_per_ip={max_per_ip}
 """)
 
+file_user_list = ("""
+# vsftpd userlist
+# If userlist_deny=NO, only allow users in this file
+# If userlist_deny=YES (default), never allow users in this file, and
+# do not even prompt for a password.
+# Note that the default vsftpd pam config also checks /etc/vsftpd/ftpusers
+# for users that are denied.
+root
+bin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+news
+uucp
+operator
+games
+nobody
+{more}
+""")
+
+file_ftp_users = ("""
+# Users that are not allowed to login via ftp
+root
+bin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+news
+uucp
+operator
+games
+nobody
+{more}
+""")
+
 config_params = {
     "anonymous_enable": 'NO',
     "anon_upload_enable": 'NO',

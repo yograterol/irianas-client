@@ -856,6 +856,8 @@ AddOutputFilter INCLUDES .shtml
 # copying them to /your/include/path/, even on a per-VirtualHost basis.
 #
 
+NameVirtualHost *:80
+
 Alias /error/ "/var/www/error/"
 
 <IfModule mod_negotiation.c>
@@ -934,6 +936,14 @@ file_httpd_sysconfig = ("""
 #PIDFILE=/var/run/httpd/httpd.pid
 """)
 
+file_vhost = ("""
+<VirtualHost *:80>
+DocumentRoot /srv/www/{name_domain}
+ServerName {name_domain}
+
+</VirtualHost>
+""")
+
 config_params = {
     "keep_alive": 'Off',
     "max_keep_alive": 100,
@@ -957,19 +967,21 @@ config_params = {
     "server_name": "www.example.com",
     "user_dir": 'disabled'
 }
+import os
 
 
 class HTTPDService(CommonService):
     """HTTPDService"""
+    create_config = CreateConfigFile()
 
     def __init__(self):
         super(HTTPDService, self).__init__(config_params)
 
     def save_attr(self, path):
-        create_config = CreateConfigFile()
-        create_config.save_file(file_httpd_config,
-                                config_params,
-                                path)
+
+        self.create_config.save_file(file_httpd_config,
+                                     config_params,
+                                     path)
 
     def worker(self, path, status=False):
         config_worker = dict()
@@ -978,10 +990,17 @@ class HTTPDService(CommonService):
         else:
             config_worker['worker'] = '#'
 
-        create_config = CreateConfigFile()
-        create_config.save_file(file_httpd_sysconfig,
-                                config_worker,
-                                path)
+        self.create_config.save_file(file_httpd_sysconfig,
+                                     config_worker,
+                                     path)
+
+    def create_vhost(self, name_domain, path):
+        self.create_config.save_file(file_vhost,
+                                     dict(name_domain=name_domain),
+                                     os.path.join(path, name_domain + '.conf'))
+
+    def remove_vhost(self, name_domain, path):
+        os.remove(os.path.join(path, name_domain + '.conf'))
 
     def restart(self):
         pass

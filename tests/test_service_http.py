@@ -1,3 +1,4 @@
+import os
 from irianas_client.services.webserver.apache import HTTPDService
 
 obj_httpd = HTTPDService()
@@ -24,3 +25,12 @@ class TestHttpService(object):
     def test_save_sysconfig_file(self):
         obj_httpd.worker(tmp_path_sysconfig_file)
         assert open(tmp_path_sysconfig_file)
+
+    def test_create_vhost_file(self):
+        obj_httpd.create_vhost('example.com', '/tmp')
+        assert open('/tmp/example.com.conf')
+
+    def test_remove_vhost_file(self):
+        obj_httpd.remove_vhost('example.com', '/tmp')
+        assert not os.path.exists(os.path.join('/tmp',
+                                               'example.com' + '.conf'))
