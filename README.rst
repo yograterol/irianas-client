@@ -22,12 +22,13 @@ Task List
 
 - [x] Yum wrapper
 - [x] Config file and Config Class (+ Test)
-- [ ] Methods for the service's configuration (+ Test)
+- [x] Methods for the service's configuration (+ Test)
 - [ ] Creation Client with Twisted for Connect to Irianas Server (+ Test)
 - [ ] Creation reader for service's log. (+ Test)
 - [ ] API Rest with Twisted for wait orders from Irianas Server, to do changes on the config files services. (+ Test)
-- [ ] Class for basic task on the system (Restart, Shutdown, Monitor System) (+ Test)
+- [x] Class for basic task on the system (Restart, Shutdown)
+- [ ] Monitor System
 - [ ] API Rest for basic task (+ Test)
-- [ ] Class for events system (Installation software, new updates, etc) (+ Test)
+- [x] Class for events system (Installation software, new updates, etc) (+ Test)
 - [ ] Class for user creation, update and delete.
-- [ ] Class for admin services (Ex: Add VHOST on Apache, Add new user to FTP services) (+ Test)
+- [x] Class for admin services (Ex: Add VHOST on Apache, Add new user to FTP services) (+ Test)
