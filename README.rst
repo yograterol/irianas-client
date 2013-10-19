@@ -1,5 +1,5 @@
 ================
-Irianas (Client)
+Irianas (Client) [![Build Status](https://travis-ci.org/Irigonzalez/irianas-client.png?branch=master)](https://travis-ci.org/Irigonzalez/irianas-client)
 ================
 
 :Info: Irianas is a software for manage servers and clusters.
