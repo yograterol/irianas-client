@@ -66,7 +66,7 @@ class BINDService(CommonService):
     """BIND Service"""
 
     def __init__(self):
-        super(BINDService, self).__init__(config_params)
+        super(BINDService, self).__init__(config_params, 'bind')
 
     def save_attr(self, path):
         create_config = CreateConfigFile()

@@ -1,4 +1,5 @@
 import os
+import pytest
 from irianas_client.services.webserver.apache import HTTPDService
 
 obj_httpd = HTTPDService()
@@ -27,10 +28,24 @@ class TestHttpService(object):
         assert open(tmp_path_sysconfig_file)
 
     def test_create_vhost_file(self):
-        obj_httpd.create_vhost('example.com', '/tmp')
+        assert obj_httpd.create_vhost('example.com', '/tmp', True)
         assert open('/tmp/example.com.conf')
 
     def test_remove_vhost_file(self):
-        obj_httpd.remove_vhost('example.com', '/tmp')
+        obj_httpd.remove_vhost('example.com', '/tmp', True)
         assert not os.path.exists(os.path.join('/tmp',
                                                'example.com' + '.conf'))
+
+    @pytest.mark.skipif("'VIRTUAL_ENV' in os.environ",
+                        reason="requires root permission")
+    @pytest.mark.skipif("'TRAVIS' in os.environ",
+                        reason="requires root permission")
+    def test_install(self):
+        assert obj_httpd.install()
+
+    @pytest.mark.skipif("'VIRTUAL_ENV' in os.environ",
+                        reason="requires root permission")
+    @pytest.mark.skipif("'TRAVIS' in os.environ",
+                        reason="requires root permission")
+    def test_uninstall(self):
+        assert obj_httpd.remove()

@@ -10,13 +10,18 @@ class YUMWrapper(object):
         else:
             return False
 
-    def install(self, app):
+    def transaction(self, app, type_transaction='Install'):
         yb = yum.YumBase()
-        searchlist = [app, ]
-        arg = [app, ]
-        matches = yb.searchGenerator(searchlist, arg)
+        searchlist = ['name', ]
+        list_app = [app, ]
+        matches = yb.searchGenerator(searchlist, list_app)
         for (package, matched_value) in matches:
             if package.name == app:
-                print yb.install(package)
-                print yb.buildTransaction()
-                print yb.processTransaction()
+                if type_transaction is 'Install':
+                    yb.install(package)
+                    yb.buildTransaction()
+                    yb.processTransaction()
+                elif type_transaction is 'Remove':
+                    yb.remove(package)
+                    yb.buildTransaction()
+                return self.info(app)
