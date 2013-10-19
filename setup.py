@@ -40,6 +40,11 @@ python_version_specific_requires = []
 if sys.version_info < (2, 7) or (3, 0) <= sys.version_info < (3, 3):
     python_version_specific_requires.append('argparse')
 
+if 'VIRTUAL_ENV' in os.environ:
+    path_config = os.environ['VIRTUAL_ENV']
+else:
+    path_config = '/etc'
+data_config = {'data_files': [(path_config, ['etc/irianas_config.conf'])]}
 
 # See here for more options:
 # <http://pythonhosted.org/setuptools/setuptools.html>
@@ -85,7 +90,8 @@ setup_dict = dict(
         # 'gui_scripts': [
         #     'irianas_client_gui = irianas_client.gui:entry_point'
         # ]
-    }
+    },
+    **data_config
 )
 
 
