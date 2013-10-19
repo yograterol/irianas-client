@@ -13,7 +13,7 @@ class CommonService(object):
     def __init__(self, config_params, name_service):
         self.config_params = config_params
         self.app = config_irianas.config[name_service + '-service']
-        self.obj_daemon = ControlDaemon(self.app['name_package'])
+        self.obj_daemon = ControlDaemon(self.app['service_name'])
 
     def __getattr__(self, attr):
         if not attr is 'config_params' and not attr is 'app':

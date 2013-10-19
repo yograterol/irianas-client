@@ -1,12 +1,13 @@
 import pytest
 from irianas_client.services.ftp.vsftp import vsFTPService
-from irianas_client import ConditionTest
+
+condition_test = "'VIRTUAL_ENV' in os.environ or 'TRAVIS' in os.environ"
 
 obj_vsftpd = vsFTPService()
 tmp_path_vsftpd_config = '/tmp/vsftpd.conf'
 
 
-class TestBINDService(ConditionTest):
+class TestBINDService(object):
 
     def test_get_params(self):
         assert obj_vsftpd.listen == 'YES'
@@ -22,7 +23,7 @@ class TestBINDService(ConditionTest):
         obj_vsftpd.save_attr(tmp_path_vsftpd_config)
         assert open(tmp_path_vsftpd_config)
 
-    @pytest.mark.skipif(super.condition_test,
+    @pytest.mark.skipif(condition_test,
                         reason="requires root permission")
     def test_install(self):
         assert obj_vsftpd.install()
