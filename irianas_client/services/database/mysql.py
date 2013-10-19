@@ -134,11 +134,13 @@ class MySQLService(CommonService):
         if attr in params_valid:
             return params_default["mysqld"][attr]
         else:
-            return None
+            return super.__getattr__(attr)
 
     def __setattr__(self, attr, value):
         if attr in params_valid:
             params_default["mysqld"][attr] = value
+        else:
+            super.__setattr__(self, attr, value)
 
     def get(self, attr):
         return self.__getattr__(attr)

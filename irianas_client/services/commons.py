@@ -13,14 +13,10 @@ class CommonService(object):
     def __init__(self, config_params, name_service):
         self.config_params = config_params
         self.app = config_irianas.config[name_service + '-service']
-        self.obj_daemon = ControlDaemon(self.app['service_name'])
 
     def __getattr__(self, attr):
-        if not attr is 'config_params' and not attr is 'app':
-            if attr in self.config_params:
-                return self.config_params[attr]
-            else:
-                return None
+        if attr in self.config_params:
+            return self.config_params[attr]
 
     def __setattr__(self, attr, value):
         if not attr is 'config_params' and not attr is 'app':
@@ -44,10 +40,22 @@ class CommonService(object):
         return yum.transaction(self.app['name_package'], 'Remove')
 
     def start(self):
-        return self.obj_daemon.start()
+        obj_daemon = ControlDaemon(self.app['service_name'])
+        if obj_daemon.start():
+            return True
+        else:
+            return False
 
     def restart(self):
-        return self.obj_daemon.restart()
+        obj_daemon = ControlDaemon(self.app['service_name'])
+        if obj_daemon.restart():
+            return True
+        else:
+            return False
 
     def stop(self):
-        return self.obj_daemon.stop()
+        obj_daemon = ControlDaemon(self.app['service_name'])
+        if obj_daemon.stop():
+            return True
+        else:
+            return False

@@ -50,6 +50,11 @@ class TestHttpService(object):
 
     @pytest.mark.skipif(condition_test,
                         reason="requires root permission")
+    def test_reinstall(self):
+        assert obj_httpd.install()
+
+    @pytest.mark.skipif(condition_test,
+                        reason="requires root permission")
     def test_start_service(self):
         assert obj_httpd.start()
 

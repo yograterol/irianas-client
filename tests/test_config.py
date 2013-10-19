@@ -20,3 +20,4 @@ class TestConfig(object):
     def test_config_mysql(self):
         config = create_config()
         assert 'mysql-service' in config
+        assert config['mysql-service'].get('service_name') == 'mysqld'

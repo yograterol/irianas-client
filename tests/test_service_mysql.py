@@ -3,7 +3,10 @@
 .. moduleauthor:: Irisel Gonzalez <irisel.gonzalez@gmail.com>
 
 """
+import pytest
 from irianas_client.services.database import (MySQLService, MySQLConfigFile)
+
+condition_test = "'VIRTUAL_ENV' in os.environ or 'TRAVIS' in os.environ"
 
 obj_mysql = MySQLService()
 obj_mysql_config_file = MySQLConfigFile()
@@ -40,3 +43,33 @@ class TestMySQLService(object):
     def test_config_file_from_mysql_service(self):
         obj_mysql.save_attr(tmp_path_mysql_service)
         assert open(tmp_path_mysql_service)
+
+    @pytest.mark.skipif(condition_test,
+                        reason="requires root permission")
+    def test_install(self):
+        assert obj_mysql.install()
+
+    @pytest.mark.skipif(condition_test,
+                        reason="requires root permission")
+    def test_uninstall(self):
+        assert obj_mysql.remove()
+
+    @pytest.mark.skipif(condition_test,
+                        reason="requires root permission")
+    def test_reinstall(self):
+        assert obj_mysql.install()
+
+    @pytest.mark.skipif(condition_test,
+                        reason="requires root permission")
+    def test_start_service(self):
+        assert obj_mysql.start()
+
+    @pytest.mark.skipif(condition_test,
+                        reason="requires root permission")
+    def test_restart_service(self):
+        assert obj_mysql.restart()
+
+    @pytest.mark.skipif(condition_test,
+                        reason="requires root permission")
+    def test_stop_service(self):
+        assert obj_mysql.stop()
