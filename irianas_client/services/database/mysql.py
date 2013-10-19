@@ -152,12 +152,3 @@ class MySQLService(CommonService):
 
     def get_attr(self):
         pass
-
-    def restart(self):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass

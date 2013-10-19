@@ -211,12 +211,3 @@ class vsFTPService(CommonService):
         create_config.save_file(file_vsftpd_config,
                                 config_params,
                                 path)
-
-    def restart(self):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass

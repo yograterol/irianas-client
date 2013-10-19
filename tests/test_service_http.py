@@ -1,13 +1,14 @@
 import os
 import pytest
 from irianas_client.services.webserver.apache import HTTPDService
+from irianas_client import ConditionTest
 
 obj_httpd = HTTPDService()
 tmp_path_config_file = '/tmp/httpd.conf'
 tmp_path_sysconfig_file = '/tmp/httpd'
 
 
-class TestHttpService(object):
+class TestHttpService(ConditionTest):
 
     def test_get_params(self):
         assert obj_httpd.keep_alive == 'Off'
@@ -36,16 +37,27 @@ class TestHttpService(object):
         assert not os.path.exists(os.path.join('/tmp',
                                                'example.com' + '.conf'))
 
-    @pytest.mark.skipif("'VIRTUAL_ENV' in os.environ",
-                        reason="requires root permission")
-    @pytest.mark.skipif("'TRAVIS' in os.environ",
+    @pytest.mark.skipif(super.condition_test,
                         reason="requires root permission")
     def test_install(self):
         assert obj_httpd.install()
 
-    @pytest.mark.skipif("'VIRTUAL_ENV' in os.environ",
-                        reason="requires root permission")
-    @pytest.mark.skipif("'TRAVIS' in os.environ",
+    @pytest.mark.skipif(super.condition_test,
                         reason="requires root permission")
     def test_uninstall(self):
         assert obj_httpd.remove()
+
+    @pytest.mark.skipif(super.condition_test,
+                        reason="requires root permission")
+    def test_start_service(self):
+        assert obj_httpd.start()
+
+    @pytest.mark.skipif(super.condition_test,
+                        reason="requires root permission")
+    def test_restart_service(self):
+        assert obj_httpd.restart()
+
+    @pytest.mark.skipif(super.condition_test,
+                        reason="requires root permission")
+    def test_stop_service(self):
+        assert obj_httpd.stop()

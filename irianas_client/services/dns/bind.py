@@ -73,12 +73,3 @@ class BINDService(CommonService):
         create_config.save_file(file_named_config,
                                 config_params,
                                 path)
-
-    def restart(self):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass

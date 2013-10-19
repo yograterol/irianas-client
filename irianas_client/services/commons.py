@@ -1,3 +1,4 @@
+from ctrldaemon import ControlDaemon
 from irianas_client.config.config import ConfigIrianasClient
 try:
     from irianas_client.yum.yumwrapper import YUMWrapper
@@ -12,6 +13,7 @@ class CommonService(object):
     def __init__(self, config_params, name_service):
         self.config_params = config_params
         self.app = config_irianas.config[name_service + '-service']
+        self.obj_daemon = ControlDaemon(self.app['name_package'])
 
     def __getattr__(self, attr):
         if not attr is 'config_params' and not attr is 'app':
@@ -40,3 +42,12 @@ class CommonService(object):
     def remove(self):
         yum = YUMWrapper()
         return yum.transaction(self.app['name_package'], 'Remove')
+
+    def start(self):
+        return self.obj_daemon.start()
+
+    def restart(self):
+        return self.obj_daemon.restart()
+
+    def stop(self):
+        return self.obj_daemon.stop()

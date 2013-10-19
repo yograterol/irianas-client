@@ -1048,12 +1048,3 @@ class HTTPDService(CommonService):
                                              domain_name,
                                              test)
         os.rmdir(dir_vhost_path)
-
-    def restart(self):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass
