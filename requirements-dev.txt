@@ -29,3 +29,6 @@ colorama==0.2.5
 
 # Config
 pyyaml
+
+# Monitor System
+psutil

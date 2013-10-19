@@ -32,7 +32,7 @@ Task List
 - [ ] Creation reader for service's log. (+ Test)
 - [ ] API Rest with Twisted for wait orders from Irianas Server, to do changes on the config files services. (+ Test)
 - [x] Class for basic task on the system (Restart, Shutdown)
-- [ ] Monitor System
+- [x] Monitor System
 - [ ] API Rest for basic task (+ Test)
 - [x] Class for events system (Installation software, new updates, etc) (+ Test)
 - [ ] Class for user creation, update and delete.
