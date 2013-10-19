@@ -6,7 +6,9 @@ Irianas (Client)
 :Repository: https://github.com/Irigonzalez/irianas-client
 :Authors: Irisel Gonzalez (http://github.com/irigonzalez) | Yohan Graterol (http://github.com/yograterol)
 :IRC: #irianas (Freenode)
-:Branch Master: image:https://travis-ci.org/Irigonzalez/irianas-client.png?branch=master["Build Status", link="https://travis-ci.org/Irigonzalez/irianas-client"]
+:Branch Master: image:: https://travis-ci.org/Irigonzalez/irianas-client.png?branch=master
+                :alt: Build Status - master branch
+                :target: https://travis-ci.org/Irigonzalez/irianas-client
 
 Installation
 ============
