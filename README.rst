@@ -1,11 +1,12 @@
 ================
-Irianas (Client) [![Build Status](https://travis-ci.org/Irigonzalez/irianas-client.png?branch=master)](https://travis-ci.org/Irigonzalez/irianas-client)
+Irianas (Client)
 ================
 
 :Info: Irianas is a software for manage servers and clusters.
 :Repository: https://github.com/Irigonzalez/irianas-client
 :Authors: Irisel Gonzalez (http://github.com/irigonzalez) | Yohan Graterol (http://github.com/yograterol)
 :IRC: #irianas (Freenode)
+:Branch Master: image:https://travis-ci.org/Irigonzalez/irianas-client.png?branch=master["Build Status", link="https://travis-ci.org/Irigonzalez/irianas-client"]
 
 Installation
 ============
