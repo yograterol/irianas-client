@@ -2,6 +2,7 @@
 # Copyright (C) 2013 Irisel Gonzalez.
 # Authors: Irisel Gonzalez <irisel.gonzalez@gmail.com>
 #
+from irawadi_user import ManageUser
 from irianas_client.config.config_services import CreateConfigFile
 from irianas_client.services.commons import CommonService
 
@@ -211,3 +212,18 @@ class vsFTPService(CommonService):
         create_config.save_file(file_vsftpd_config,
                                 config_params,
                                 path)
+
+    def create_user(self, user, password):
+        obj_user = ManageUser()
+        user = dict(user=user, b='/home/ftp', g='ftp', s='/sbin/nologin', m='',
+                    p=password)
+        return obj_user.create(**user)
+
+    def remove_user(self, user):
+        obj_user = ManageUser()
+        return obj_user.delete(user)
+
+    def update_password(self, user, password):
+        obj_user = ManageUser()
+        user = dict(user=user, password=password)
+        return obj_user.update_password(**user)

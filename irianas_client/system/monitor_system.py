@@ -7,24 +7,28 @@ import psutil
 
 class MonitorSystem(object):
 
-    def get_memory_used(self, percent=False):
+    @staticmethod
+    def get_memory_used(percent=False):
         mem = psutil.virtual_memory()
         if percent:
             return mem[2]
         else:
             return mem[0] * (mem[2] / 100)
 
-    def get_memory_free(self, percent=False):
+    @staticmethod
+    def get_memory_free(percent=False):
         mem = psutil.virtual_memory()
         if percent:
             return 100 - mem[2]
         else:
             return mem[1]
 
-    def get_cpu_porcent(self, interval=5):
+    @staticmethod
+    def get_cpu_porcent(interval=1):
         return psutil.cpu_percent(interval=interval)
 
-    def get_disk_used(self, percent=False):
+    @staticmethod
+    def get_disk_used(percent=False):
         disks = psutil.disk_partitions()
         total = 0
         for disk in disks:

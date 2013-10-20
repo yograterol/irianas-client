@@ -20,6 +20,7 @@ class YUMWrapper(object):
             os.system("yum install -y " + app)
         elif type_transaction == 'Remove':
             os.system("yum remove -y " + app)
+            return not self.info(app)
         elif type_transaction == 'Update':
             os.system("yum update -y" + app)
         return self.info(app)

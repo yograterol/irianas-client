@@ -994,9 +994,10 @@ class HTTPDService(CommonService):
                                      config_worker,
                                      path)
 
-    def path_vhost_dir(self, path, domain_name, test=False):
+    def path_vhost_dir(self, domain_name):
         dir_vhost_path = '/srv/www/{domain_name}'.format(**domain_name)
-        if test:
+        if 'VIRTUAL_ENV' in os.environ or 'TRAVIS' in os.environ:
+            path = '/tmp'
             dir_vhost_path = os.path.join(path, domain_name['domain_name'])
         return dir_vhost_path
 
@@ -1014,12 +1015,17 @@ class HTTPDService(CommonService):
         """
         file_vhost_path = os.path.join(path, domain_name + '.conf')
         domain_name = dict(domain_name=domain_name)
-        self.create_config.save_file(file_vhost,
-                                     domain_name,
-                                     file_vhost_path)
+
+        if not os.path.exists(file_vhost_path):
+            self.create_config.save_file(file_vhost,
+                                         domain_name,
+                                         file_vhost_path)
+        else:
+            return False
+
         if os.path.exists(file_vhost_path):
-            dir_vhost_path = self.path_vhost_dir(path, domain_name, test)
-            os.mkdir(dir_vhost_path)
+            dir_vhost_path = self.path_vhost_dir(domain_name)
+            os.makedirs(dir_vhost_path)
             if os.path.isdir(dir_vhost_path):
                 return True
             else:
@@ -1028,7 +1034,7 @@ class HTTPDService(CommonService):
         else:
             return False
 
-    def remove_vhost(self, domain_name, path, test=False):
+    def remove_vhost(self, domain_name, path):
         """Delete the vhost file in Apache.
 
         Args:
@@ -1042,9 +1048,13 @@ class HTTPDService(CommonService):
             False: If can't storage the vhost file or create dir.
         """
         file_vhost_path = os.path.join(path, domain_name + '.conf')
-        os.remove(file_vhost_path)
-        domain_name = dict(domain_name=domain_name)
-        dir_vhost_path = self.path_vhost_dir(path,
-                                             domain_name,
-                                             test)
-        os.rmdir(dir_vhost_path)
+        if os.path.exists(file_vhost_path):
+            os.remove(file_vhost_path)
+            domain_name = dict(domain_name=domain_name)
+            dir_vhost_path = self.path_vhost_dir(domain_name)
+            if os.path.isdir(dir_vhost_path):
+                os.rmdir(dir_vhost_path)
+                if not os.path.isdir(dir_vhost_path):
+                    return True
+                else:
+                    return False

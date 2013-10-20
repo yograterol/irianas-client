@@ -4,6 +4,7 @@
 #
 from flask.ext.restful import Resource
 from irianas_client.system.basic_task_system import ShuttingSystem
+from irianas_client.system.monitor_system import MonitorSystem
 
 
 class TaskBasicAPI(Resource):
@@ -17,3 +18,8 @@ class TaskBasicAPI(Resource):
             ShuttingSystem.suspend()
         elif action == 'hibernate':
             ShuttingSystem.hibernate()
+        elif action == 'monitor':
+            monitor = dict(cpu=MonitorSystem.get_cpu_porcent(3),
+                           memory=MonitorSystem.get_memory_used(True),
+                           disk=MonitorSystem.get_disk_used(True))
+            return monitor
