@@ -1,7 +1,7 @@
 from ctrldaemon import ControlDaemon
 from irianas_client.config.config import ConfigIrianasClient
 try:
-    from irianas_client.yum.yumwrapper import YUMWrapper
+    from irianas_client.yumwrap.yumwrapper import YUMWrapper
 except:
     YUMWrapper = None
 config_irianas = ConfigIrianasClient()
