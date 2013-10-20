@@ -40,22 +40,21 @@ class CommonService(object):
         return yum.transaction(self.app['name_package'], 'Remove')
 
     def start(self):
-        obj_daemon = ControlDaemon(self.app['service_name'])
-        if obj_daemon.start():
-            return True
-        else:
-            return False
+        return self._exec_command_service('start')
 
     def restart(self):
-        obj_daemon = ControlDaemon(self.app['service_name'])
-        if obj_daemon.restart():
-            return True
-        else:
-            return False
+        return self._exec_command_service('restart')
 
     def stop(self):
+        return self._exec_command_service('stop')
+
+    def get_status(self):
+        return self._exec_command_service('get_status')
+
+    def _exec_command_service(self, command):
         obj_daemon = ControlDaemon(self.app['service_name'])
-        if obj_daemon.stop():
-            return True
-        else:
-            return False
+        actions = dict(start=obj_daemon.start,
+                       restart=obj_daemon.restart,
+                       stop=obj_daemon.stop,
+                       get_status=obj_daemon.get_status)
+        return actions[command]()

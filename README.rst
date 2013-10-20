@@ -35,5 +35,5 @@ Task List
 - [x] Monitor System
 - [ ] API Rest for basic task (+ Test)
 - [x] Class for events system (Installation software, new updates, etc) (+ Test)
-- [ ] Class for user creation, update and delete.
+- [X] Class for user creation, update and delete.
 - [x] Class for admin services (Ex: Add VHOST on Apache, Add new user to FTP services) (+ Test)
