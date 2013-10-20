@@ -938,8 +938,8 @@ file_httpd_sysconfig = ("""
 
 file_vhost = ("""
 <VirtualHost *:80>
-DocumentRoot /srv/www/{name_domain}
-ServerName {name_domain}
+DocumentRoot /srv/www/{domain_name}
+ServerName {domain_name}
 
 </VirtualHost>
 """)
@@ -975,7 +975,7 @@ class HTTPDService(CommonService):
     create_config = CreateConfigFile()
 
     def __init__(self):
-        super(HTTPDService, self).__init__(config_params)
+        super(HTTPDService, self).__init__(config_params, 'apache')
 
     def save_attr(self, path):
 
@@ -994,19 +994,57 @@ class HTTPDService(CommonService):
                                      config_worker,
                                      path)
 
-    def create_vhost(self, name_domain, path):
+    def path_vhost_dir(self, path, domain_name, test=False):
+        dir_vhost_path = '/srv/www/{domain_name}'.format(**domain_name)
+        if test:
+            dir_vhost_path = os.path.join(path, domain_name['domain_name'])
+        return dir_vhost_path
+
+    def create_vhost(self, domain_name, path, test=False):
+        """Do the vhost creation in the indicate path.
+
+        Args:
+            domain_name: The domain name for vhost.
+            path: The path dir for storage the config file and
+                  vhost dir in the test.
+            test: Indicates whether it is a test.
+        Return:
+            True: If all is correct.
+            False: If can't storage the vhost file or create dir.
+        """
+        file_vhost_path = os.path.join(path, domain_name + '.conf')
+        domain_name = dict(domain_name=domain_name)
         self.create_config.save_file(file_vhost,
-                                     dict(name_domain=name_domain),
-                                     os.path.join(path, name_domain + '.conf'))
+                                     domain_name,
+                                     file_vhost_path)
+        if os.path.exists(file_vhost_path):
+            dir_vhost_path = self.path_vhost_dir(path, domain_name, test)
+            os.mkdir(dir_vhost_path)
+            if os.path.isdir(dir_vhost_path):
+                return True
+            else:
+                os.remove(file_vhost_path)
+                return False
+        else:
+            return False
 
-    def remove_vhost(self, name_domain, path):
-        os.remove(os.path.join(path, name_domain + '.conf'))
+    def remove_vhost(self, domain_name, path, test=False):
+        """Delete the vhost file in Apache.
 
-    def restart(self):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass
+        Args:
+            Args:
+            domain_name: The domain name for vhost.
+            path: The path dir for storage the config file and
+                  vhost dir in the test.
+            test: Indicates whether it is a test.
+        Return:
+            True: If all is correct.
+            False: If can't storage the vhost file or create dir.
+        """
+        file_vhost_path = os.path.join(path, domain_name + '.conf')
+        os.remove(file_vhost_path)
+        domain_name = dict(domain_name=domain_name)
+        dir_vhost_path = self.path_vhost_dir(path,
+                                             domain_name,
+                                             test)
+        os.rmdir(dir_vhost_path)

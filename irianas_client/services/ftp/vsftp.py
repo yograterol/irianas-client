@@ -88,8 +88,8 @@ xferlog_std_format=YES
 # predicted this attack and has always been safe, reporting the size of the
 # raw file.
 # ASCII mangling is a horrible feature of the protocol.
-ascii_upload_enable={ascii_upload_enable}
-ascii_download_enable={ascii_upload_enable}
+#ascii_upload_enable={ascii_upload_enable}
+#ascii_download_enable={ascii_upload_enable}
 #
 # You may fully customise the login banner string:
 ftpd_banner={ftpd_banner}
@@ -123,6 +123,8 @@ listen={listen}
 # sockets, you must run two copies of vsftpd with two configuration files.
 # Make sure, that one of the listen options is commented !!
 listen_ipv6={listen_ipv6}
+
+log_ftp_protocol=YES
 
 pam_service_name=vsftpd
 userlist_enable={userlist_enable}
@@ -182,7 +184,7 @@ config_params = {
     "dirmessage_enable": 'YES',
     "connect_from_port_20": 'YES',
     "ascii_upload_enable": 'NO',
-    "ascii_upload_enable": 'NO',
+    "ascii_download_enable": 'NO',
     "chroot_local_user": 'YES',
     "chroot_list_enable": 'YES',
     "chroot_list_file": '/etc/vsftpd/chroot_list',
@@ -195,24 +197,17 @@ config_params = {
     "max_per_ip": 10
 }
 
+activate_ftp_home = 'setsebool -P ftp_home_dir on'
+
 
 class vsFTPService(CommonService):
-    """BIND Service"""
+    """VSFTPD Service"""
 
     def __init__(self):
-        super(vsFTPService, self).__init__(config_params)
+        super(vsFTPService, self).__init__(config_params, 'vsftp')
 
     def save_attr(self, path):
         create_config = CreateConfigFile()
         create_config.save_file(file_vsftpd_config,
                                 config_params,
                                 path)
-
-    def restart(self):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass

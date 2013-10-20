@@ -9,11 +9,6 @@ script:
     - paver run_test
 notifications:
   irc: "irc.freenode.org#irianas"
-  template:
-      - "%{repository} (%{commit}) : %{message} (%{author}) "
-      - "Build details: %{build_url}"
-  use_notice: true
-  skip_join: true
 branches:
   only:
     - master

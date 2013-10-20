@@ -2,6 +2,7 @@
 # Copyright (C) 2013 Irisel Gonzalez.
 # Authors: Irisel Gonzalez <irisel.gonzalez@gmail.com>
 #
+from irianas_client.services.commons import CommonService
 
 """
 Config basic for the config file my.cnf
@@ -123,21 +124,23 @@ class MySQLConfigFile(object):
         self.save_file(path)
 
 
-class MySQLService(object):
+class MySQLService(CommonService):
     """MySQLService"""
 
     def __init__(self):
-        super(MySQLService, self).__init__()
+        super(MySQLService, self).__init__(None, 'mysql')
 
     def __getattr__(self, attr):
         if attr in params_valid:
             return params_default["mysqld"][attr]
         else:
-            return None
+            return super.__getattr__(attr)
 
     def __setattr__(self, attr, value):
         if attr in params_valid:
             params_default["mysqld"][attr] = value
+        else:
+            super.__setattr__(self, attr, value)
 
     def get(self, attr):
         return self.__getattr__(attr)
@@ -148,15 +151,3 @@ class MySQLService(object):
     def save_attr(self, path):
         obj_mysql_config_file = MySQLConfigFile()
         obj_mysql_config_file.execute_config(path)
-
-    def get_attr(self):
-        pass
-
-    def restart(self):
-        pass
-
-    def start(self):
-        pass
-
-    def stop(self):
-        pass
