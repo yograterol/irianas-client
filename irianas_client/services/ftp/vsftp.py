@@ -184,7 +184,7 @@ config_params = {
     "dirmessage_enable": 'YES',
     "connect_from_port_20": 'YES',
     "ascii_upload_enable": 'NO',
-    "ascii_upload_enable": 'NO',
+    "ascii_download_enable": 'NO',
     "chroot_local_user": 'YES',
     "chroot_list_enable": 'YES',
     "chroot_list_file": '/etc/vsftpd/chroot_list',

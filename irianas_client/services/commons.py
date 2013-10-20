@@ -31,13 +31,17 @@ class CommonService(object):
     def set(self, attr, value):
         self.__setattr__(attr, value)
 
-    def install(self):
+    def install(self, package=None):
         yum = YUMWrapper()
-        return yum.transaction(self.app['name_package'])
+        if not package:
+            return yum.transaction(self.app['name_package'])
+        return yum.transaction(package)
 
-    def remove(self):
+    def remove(self, package=None):
         yum = YUMWrapper()
-        return yum.transaction(self.app['name_package'], 'Remove')
+        if not package:
+            return yum.transaction(self.app['name_package'], 'Remove')
+        return yum.transaction(package)
 
     def start(self):
         return self._exec_command_service('start')

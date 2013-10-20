@@ -28,9 +28,9 @@ Task List
 - [x] Yum wrapper
 - [x] Config file and Config Class (+ Test)
 - [x] Methods for the service's configuration (+ Test)
-- [ ] Creation Client with Twisted for Connect to Irianas Server (+ Test)
-- [ ] Creation reader for service's log. (+ Test)
-- [ ] API Rest with Twisted for wait orders from Irianas Server, to do changes on the config files services. (+ Test)
+- [x] Creation Flask Rest API for Services (+ Test)
+- [-] Creation reader for service's log. (+ Test)
+- [-] API Rest with Flask for wait orders from Irianas Server, to do changes on the config files services. (+ Test)
 - [x] Class for basic task on the system (Restart, Shutdown)
 - [x] Monitor System
 - [ ] API Rest for basic task (+ Test)

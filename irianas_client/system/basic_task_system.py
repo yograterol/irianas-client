@@ -7,14 +7,18 @@ from os import system
 
 class ShuttingSystem(object):
 
-    def shut_down(self):
+    @staticmethod
+    def shut_down():
         system("init 0")
 
-    def reboot(self):
+    @staticmethod
+    def reboot():
         system("reboot")
 
-    def suspend(self):
+    @staticmethod
+    def suspend():
         system("pm-suspend")
 
-    def hibernate(self):
+    @staticmethod
+    def hibernate():
         system(" pm-hibernate")

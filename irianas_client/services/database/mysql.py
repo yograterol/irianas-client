@@ -151,6 +151,3 @@ class MySQLService(CommonService):
     def save_attr(self, path):
         obj_mysql_config_file = MySQLConfigFile()
         obj_mysql_config_file.execute_config(path)
-
-    def get_attr(self):
-        pass

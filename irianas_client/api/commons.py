@@ -9,19 +9,24 @@ class APICommon(restful.Resource):
         self.obj_services = obj_services
         self.services = services
 
-    def get(self, action):
+    def get(self, action='status'):
         obj_yum = YUMWrapper()
-        if action == 'status':
-            status = dict()
-            if self.obj_services.get_status():
-                status['status'] = 1
-            else:
-                status['status'] = 0
-            return status
-        elif action == 'installed':
+        if action == 'installed':
             return dict(installed=obj_yum.info(self.services))
         elif action == 'install':
-            return dict(installed=obj_yum.transaction(self.services))
+            return dict(installed=self.obj_services.install())
         elif action == 'remove':
-            return dict(service=self.services,
-                        remove=obj_yum.transaction(self.services, 'Remove'))
+            return dict(remove=not self.obj_services.remove())
+        elif action == 'start':
+            self.obj_services.start()
+        elif action == 'restart':
+            self.obj_services.restart()
+        elif action == 'stop':
+            self.obj_services.stop()
+
+        status = dict()
+        if self.obj_services.get_status():
+            status['status'] = 1
+        else:
+            status['status'] = 0
+        return status
