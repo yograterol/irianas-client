@@ -213,10 +213,14 @@ class vsFTPService(CommonService):
                                 config_params,
                                 path)
 
-    def create_user(self, user, password):
+    def create_user(self, user, password, apache=False):
         obj_user = ManageUser()
-        user = dict(user=user, b='/home/ftp', g='ftp', s='/sbin/nologin', m='',
-                    p=password)
+        if not apache:
+            user = dict(user=user, b='/home/ftp', g='ftp',
+                        s='/sbin/nologin', m='', p=password)
+        else:
+            user = dict(user=user, d='/srv/www/' + user, g='ftp',
+                        s='/sbin/nologin', m='', p=password)
         return obj_user.create(**user)
 
     def remove_user(self, user):

@@ -1,5 +1,9 @@
 from flask.ext import restful
+from flask import request
 from irianas_client.yumwrap.yumwrapper import YUMWrapper
+from irianas_client.config.config import ConfigIrianasClient
+
+config_irianas = ConfigIrianasClient().config
 
 
 class APICommon(restful.Resource):
@@ -16,7 +20,7 @@ class APICommon(restful.Resource):
         elif action == 'install':
             return dict(installed=self.obj_services.install())
         elif action == 'remove':
-            return dict(remove=not self.obj_services.remove())
+            return dict(remove=self.obj_services.remove())
         elif action == 'start':
             self.obj_services.start()
         elif action == 'restart':
@@ -30,3 +34,22 @@ class APICommon(restful.Resource):
         else:
             status['status'] = 0
         return status
+
+
+class APIConfigCommmon(restful.Resource):
+
+    __slots__ = ['services', 'obj_services']
+
+    def __init__(self, obj_services, services):
+        self.obj_services = obj_services
+        self.services = services
+
+    def put(self):
+        if request.form:
+            for key, value in request.form.iteritems():
+                self.obj_services.set(key, value)
+            path = config_irianas[self.services]['path_config_file']
+            self.obj_services.save_attr(path)
+            return dict(result="Saved")
+        else:
+            return dict(result="NotSaved")

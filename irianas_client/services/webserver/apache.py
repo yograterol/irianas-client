@@ -978,7 +978,6 @@ class HTTPDService(CommonService):
         super(HTTPDService, self).__init__(config_params, 'apache')
 
     def save_attr(self, path):
-
         self.create_config.save_file(file_httpd_config,
                                      config_params,
                                      path)
@@ -1053,7 +1052,7 @@ class HTTPDService(CommonService):
             domain_name = dict(domain_name=domain_name)
             dir_vhost_path = self.path_vhost_dir(domain_name)
             if os.path.isdir(dir_vhost_path):
-                os.rmdir(dir_vhost_path)
+                os.system('rm -rf ' + dir_vhost_path)
                 if not os.path.isdir(dir_vhost_path):
                     return True
                 else:

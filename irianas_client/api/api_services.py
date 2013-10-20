@@ -10,7 +10,7 @@ from irianas_client.services.webserver.apache import HTTPDService
 from irianas_client.services.database.mysql import MySQLService
 from irianas_client.services.ftp.vsftp import vsFTPService
 from irianas_client.services.dns.bind import BINDService
-from irianas_client.api.commons import APICommon
+from irianas_client.api.commons import (APICommon, APIConfigCommmon)
 
 config_irianas = ConfigIrianasClient().config
 
@@ -33,9 +33,6 @@ class ApacheServiceAPI(APICommon):
                 return dict(vhost_status='Created')
             else:
                 return dict(vhost_status='NotCreated')
-
-    def put(self):
-        pass
 
     def delete(self, action):
         obj_httpd = HTTPDService()
@@ -138,3 +135,27 @@ class vsFTPServiceAPI(APICommon):
                 return dict(error='DangerUser')
         except UserNotExist:
             return dict(error='UserNotExist')
+
+
+class ApacheConfigAPI(APIConfigCommmon):
+
+    def __init__(self):
+        super(ApacheConfigAPI, self).__init__(HTTPDService(), 'apache-service')
+
+
+class MySQLConfigAPI(APIConfigCommmon):
+
+    def __init__(self):
+        super(MySQLConfigAPI, self).__init__(MySQLService(), 'mysql-service')
+
+
+class BINDConfigAPI(APIConfigCommmon):
+
+    def __init__(self):
+        super(BINDConfigAPI, self).__init__(BINDService(), 'bind-service')
+
+
+class vsFTPConfigAPI(APIConfigCommmon):
+
+    def __init__(self):
+        super(vsFTPConfigAPI, self).__init__(vsFTPService(), 'vsftp-service')
