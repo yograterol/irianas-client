@@ -34,7 +34,7 @@ class TestHttpService(object):
         assert open('/tmp/example.com.conf')
 
     def test_remove_vhost_file(self):
-        obj_httpd.remove_vhost('example.com', '/tmp', True)
+        obj_httpd.remove_vhost('example.com', '/tmp')
         assert not os.path.exists(os.path.join('/tmp',
                                                'example.com' + '.conf'))
 
