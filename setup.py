@@ -31,6 +31,14 @@ def read(filename):
     with open(os.path.join(os.path.dirname(__file__), filename)) as f:
         return f.read()
 
+list_ssl = ['ssl-demo/' + item for item in os.listdir('ssl-demo')]
+
+if 'VIRTUAL_ENV' in os.environ:
+    path = os.path.join(os.environ['VIRTUAL_ENV'], 'ssl-demo')
+else:
+    path = '/etc/ssl/certs/'
+
+data_config = {'data_files': [(path, list_ssl)]}
 
 # define install_requires for specific Python versions
 python_version_specific_requires = []
@@ -44,7 +52,8 @@ if 'VIRTUAL_ENV' in os.environ:
     path_config = os.environ['VIRTUAL_ENV']
 else:
     path_config = '/etc'
-data_config = {'data_files': [(path_config, ['etc/irianas_config.conf'])]}
+
+data_config['data_files'].append((path_config, ['etc/irianas_config.conf']))
 
 # See here for more options:
 # <http://pythonhosted.org/setuptools/setuptools.html>

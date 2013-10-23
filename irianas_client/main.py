@@ -3,6 +3,8 @@
 """
 import sys
 sys.path[0:0] = [""]
+import os
+from OpenSSL import SSL
 from flask import Flask
 from flask.ext import restful
 from irianas_client.api.api_services import \
@@ -13,6 +15,23 @@ from irianas_client.api.api_task_basic import TaskBasicAPI
 api_services = '/api/services/'
 api_services_conf = '/api/services/conf/'
 api_task = '/api/task/'
+
+debug = False
+path = None
+
+if 'VIRTUAL_ENV' in os.environ:
+    path = os.path.join(os.environ['VIRTUAL_ENV'], 'ssl-demo')
+    debug = True
+else:
+    path = '/etc/ssl/certs/'
+    debug = False
+
+try:
+    context = SSL.Context(SSL.SSLv23_METHOD)
+    context.use_privatekey_file(os.path.join(path, 'server.key'))
+    context.use_certificate_file(os.path.join(path, 'server.crt'))
+except SSL.Error:
+    context = None
 
 
 def main():
@@ -45,7 +64,7 @@ def main():
     # Basic Task API
     api.add_resource(TaskBasicAPI, api_task + '<string:action>')
 
-    app.run(debug=True)
+    app.run(debug=debug, ssl_context=context, port=9000)
 
 if __name__ == '__main__':
     main()
