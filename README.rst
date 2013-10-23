@@ -31,9 +31,9 @@ Task List
 - [x] Creation Flask Rest API for Services (+ Test)
 - [-] Creation reader for service's log. (+ Test)
 - [-] API Rest with Flask for wait orders from Irianas Server, to do changes on the config files services. (+ Test)
-- [x] Class for basic task on the system (Restart, Shutdown)
+- [x] Class for basic task on the system (Restart, Shutdown, Suspend, Hibernate)
 - [x] Monitor System
-- [ ] API Rest for basic task (+ Test)
+- [X] API Rest for basic task
 - [x] Class for events system (Installation software, new updates, etc) (+ Test)
-- [X] Class for user creation, update and delete.
+- [X] Class for user creation, update and delete. (Irawadi User - https://github.com/yograterol/irawadi-user/)
 - [x] Class for admin services (Ex: Add VHOST on Apache, Add new user to FTP services) (+ Test)
