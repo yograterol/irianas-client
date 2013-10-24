@@ -2,7 +2,7 @@ import os
 import hashlib
 import simplejson as json
 from flask import request
-from flaks_restful import abort
+from flaks.ext.restful import abort
 from irianas_clent.api import path_file_token
 
 
