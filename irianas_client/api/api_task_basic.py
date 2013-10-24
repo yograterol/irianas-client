@@ -37,7 +37,7 @@ class ConnectAPI(Resource):
     def get(self):
         if os.path.exists(path_file_token):
             os.remove(path_file_token)
-            if os.path.exists(path_file_token):
+            if not os.path.exists(path_file_token):
                 return dict(logout='Ok')
             else:
                 return dict(logout='Not')
