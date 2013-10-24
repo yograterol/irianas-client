@@ -9,9 +9,7 @@ from flask import request
 from flask.ext.restful import Resource
 from irianas_client.system.basic_task_system import ShuttingSystem
 from irianas_client.system.monitor_system import MonitorSystem
-from irianas_client.decorators import require_token
-
-path_file_token = os.path.join('/etc/', 'irianas_token.tk')
+from irianas_client.decorators import require_token, path_file_token
 
 
 class TaskBasicAPI(Resource):

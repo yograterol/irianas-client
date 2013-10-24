@@ -3,7 +3,8 @@ import hashlib
 import simplejson as json
 from flask import request
 from flask.ext.restful import abort
-from irianas_client.api.api_task_basic import path_file_token
+
+path_file_token = os.path.join('/etc/', 'irianas_token.tk')
 
 
 def require_token(f):
