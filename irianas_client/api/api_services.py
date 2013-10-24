@@ -11,7 +11,7 @@ from irianas_client.services.database.mysql import MySQLService
 from irianas_client.services.ftp.vsftp import vsFTPService
 from irianas_client.services.dns.bind import BINDService
 from irianas_client.api.commons import (APICommon, APIConfigCommmon)
-from irianas_client import decorators
+from irianas_client.decorators import require_token
 
 config_irianas = ConfigIrianasClient().config
 
@@ -21,7 +21,7 @@ class ApacheServiceAPI(APICommon):
 
     """
     path = config_irianas['apache-service']['path_folder_config']
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(ApacheServiceAPI, self).__init__(HTTPDService(), 'httpd')
@@ -51,7 +51,7 @@ class MySQLServiceAPI(APICommon):
     """
 
     """
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(MySQLServiceAPI, self).__init__(MySQLService(), 'mysql-server')
@@ -70,7 +70,7 @@ class BINDServiceAPI(APICommon):
     """
 
     """
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(BINDServiceAPI, self).__init__(BINDService(), 'bind')
@@ -95,7 +95,7 @@ class vsFTPServiceAPI(APICommon):
                     'rpc', 'dbus', 'gopher', 'avahi-autoipd', 'haldaemon',
                     'saslauth', 'postfix', 'pulse', 'ntp', 'gdm', 'rpcuser',
                     'nfsnobody', 'tcpdump', 'adm']
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(vsFTPServiceAPI, self).__init__(vsFTPService(), 'vsftpd')
@@ -143,28 +143,28 @@ class vsFTPServiceAPI(APICommon):
 
 
 class ApacheConfigAPI(APIConfigCommmon):
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(ApacheConfigAPI, self).__init__(HTTPDService(), 'apache-service')
 
 
 class MySQLConfigAPI(APIConfigCommmon):
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(MySQLConfigAPI, self).__init__(MySQLService(), 'mysql-service')
 
 
 class BINDConfigAPI(APIConfigCommmon):
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(BINDConfigAPI, self).__init__(BINDService(), 'bind-service')
 
 
 class vsFTPConfigAPI(APIConfigCommmon):
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def __init__(self):
         super(vsFTPConfigAPI, self).__init__(vsFTPService(), 'vsftp-service')

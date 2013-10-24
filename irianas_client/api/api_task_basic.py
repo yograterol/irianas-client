@@ -9,13 +9,13 @@ from flask import request
 from flask.ext.restful import Resource
 from irianas_client.system.basic_task_system import ShuttingSystem
 from irianas_client.system.monitor_system import MonitorSystem
-from irianas_client import decorators
+from irianas_client.decorators import require_token
 
 path_file_token = os.path.join('/etc/', 'irianas_token.tk')
 
 
 class TaskBasicAPI(Resource):
-    method_decorators = [decorators.require_token]
+    method_decorators = [require_token]
 
     def get(self, action):
         if action == 'shut':
