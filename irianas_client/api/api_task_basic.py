@@ -61,8 +61,7 @@ class ConnectAPI(Resource):
                 token_rand = os.urandom(64).encode('hex')
                 token = hashlib.sha512(token_rand).hexdigest()
                 dict_token = dict(token=token, ip=ip)
-                print dict_token
                 file_token = open(path_file_token, 'w')
                 json.dump(dict_token, file_token)
 
-                return dict_token
+                return dict(token=token_rand)
