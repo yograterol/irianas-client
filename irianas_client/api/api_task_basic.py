@@ -45,7 +45,9 @@ class ConnectAPI(Resource):
             return dict(logout='Not')
 
     def post(self):
+        print "In the POST Method"
         if request.form.get('ip'):
+            print "Before the token"
             token = hashlib.sha512(request.form.get('token')).hexdigest()
             ip = hashlib.sha512(request.form.get('ip')).hexdigest()
             print token, ip
