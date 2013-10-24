@@ -12,11 +12,13 @@ def require_token(f):
         if os.path.exists(path_file_token):
             file_token = open(path_file_token)
             data_json = json.loads(file_token)
+
+            print data_json['ip']
+
             token = hashlib.sha512(request.form.get('token')).hexdigest()
             ip = hashlib.sha512(request.form.get('ip')).hexdigest()
 
-            if data_json.get('token') == token and \
-               data_json.get('ip') == ip:
+            if data_json.get('token') == token and data_json.get('ip') == ip:
                 return f(*args, **kwargs)
             else:
                 return abort(401)
