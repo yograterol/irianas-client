@@ -3,7 +3,7 @@ import hashlib
 import simplejson as json
 from flask import request
 from flask.ext.restful import abort
-from irianas_client.api import path_file_token
+from irianas_client.api.api_task_basic import path_file_token
 
 
 def require_token(f):
