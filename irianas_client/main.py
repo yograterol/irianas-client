@@ -10,7 +10,7 @@ from flask.ext import restful
 from irianas_client.api.api_services import \
     (ApacheServiceAPI, MySQLServiceAPI, vsFTPServiceAPI, BINDServiceAPI,
      ApacheConfigAPI, MySQLConfigAPI, BINDConfigAPI, vsFTPConfigAPI)
-from irianas_client.api.api_task_basic import TaskBasicAPI
+from irianas_client.api.api_task_basic import TaskBasicAPI, ConnectAPI
 
 api_services = '/api/services/'
 api_services_conf = '/api/services/conf/'
@@ -64,7 +64,10 @@ def main():
     # Basic Task API
     api.add_resource(TaskBasicAPI, api_task + '<string:action>')
 
-    app.run(debug=debug, ssl_context=context, port=9000)
+    # Connection API
+    api.add_resource(ConnectAPI, '/api/connect')
+
+    app.run(debug=debug, ssl_context=context, port=9000, host='0.0.0.0')
 
 if __name__ == '__main__':
     main()
