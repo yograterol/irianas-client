@@ -35,14 +35,15 @@ class ConnectAPI(Resource):
     m = hashlib.sha512()
 
     def get(self):
-        if os.path.exists(path_file_token):
-            os.remove(path_file_token)
-            if not os.path.exists(path_file_token):
-                return dict(logout='Ok')
+        if request.form.get('ip') and request.form.get('token'):
+            if os.path.exists(path_file_token):
+                os.remove(path_file_token)
+                if not os.path.exists(path_file_token):
+                    return dict(logout='Ok')
+                else:
+                    return dict(logout='Not')
             else:
                 return dict(logout='Not')
-        else:
-            return dict(logout='Not')
 
     def post(self):
         if request.form.get('ip'):
