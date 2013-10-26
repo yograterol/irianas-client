@@ -6,7 +6,7 @@ import os
 import hashlib
 import simplejson as json
 from flask import request
-from flask.ext.restful import Resource
+from flask.ext.restful import Resource, abort
 from irianas_client.system.basic_task_system import ShuttingSystem
 from irianas_client.system.monitor_system import MonitorSystem
 from irianas_client.decorators import require_token, path_file_token
@@ -47,11 +47,14 @@ class ConnectAPI(Resource):
 
     def post(self):
         if request.form.get('ip'):
-            if request.form.get('token'):
-                token = hashlib.sha512(request.form.get('token')).hexdigest()
             ip = hashlib.sha512(request.form.get('ip')).hexdigest()
 
             if os.path.exists(path_file_token):
+                if request.form.get('token'):
+                    token = hashlib.sha512(request.form['token']).hexdigest()
+                else:
+                    return abort(401)
+
                 file_token = open(path_file_token)
                 tokens = json.loads(file_token.read())
                 if tokens['token'] == token and tokens['ip'] == ip:
