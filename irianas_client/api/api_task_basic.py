@@ -4,12 +4,15 @@
 #
 import os
 import hashlib
+import socket
 import simplejson as json
 from flask import request
 from flask.ext.restful import Resource, abort
 from irianas_client.system.basic_task_system import ShuttingSystem
 from irianas_client.system.monitor_system import MonitorSystem
 from irianas_client.decorators import require_token, path_file_token
+
+ip_server = socket.gethostbyname(socket.gethostname())
 
 
 class TaskBasicAPI(Resource):
@@ -34,16 +37,16 @@ class TaskBasicAPI(Resource):
 class ConnectAPI(Resource):
     m = hashlib.sha512()
 
+    @require_token
     def get(self):
-        if request.form.get('ip') and request.form.get('token'):
-            if os.path.exists(path_file_token):
-                os.remove(path_file_token)
-                if not os.path.exists(path_file_token):
-                    return dict(logout='Ok')
-                else:
-                    return dict(logout='Not')
+        if os.path.exists(path_file_token):
+            os.remove(path_file_token)
+            if not os.path.exists(path_file_token):
+                return dict(logout=1)
             else:
-                return dict(logout='Not')
+                return dict(logout=0)
+        else:
+            return dict(logout=1)
 
     def post(self):
         if request.form.get('ip'):
@@ -55,12 +58,6 @@ class ConnectAPI(Resource):
                 else:
                     return abort(401)
 
-                file_token = open(path_file_token)
-                tokens = json.loads(file_token.read())
-                if tokens['token'] == token and tokens['ip'] == ip:
-                    return dict(connected=1)
-                else:
-                    return dict(connected=0)
             else:
                 token_rand = os.urandom(64).encode('hex')
                 token = hashlib.sha512(token_rand).hexdigest()
