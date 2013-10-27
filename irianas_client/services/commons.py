@@ -59,10 +59,18 @@ class CommonService(object):
     def get_status(self):
         return self._exec_command_service('get_status')
 
+    def activate(self):
+        return self._exec_command_service('activate')
+
+    def deactivate(self):
+        return self._exec_command_service('deactivate')
+
     def _exec_command_service(self, command):
         obj_daemon = ControlDaemon(self.app['service_name'])
         actions = dict(start=obj_daemon.start,
                        restart=obj_daemon.restart,
                        stop=obj_daemon.stop,
-                       get_status=obj_daemon.get_status)
+                       get_status=obj_daemon.get_status,
+                       activate=obj_daemon.activate,
+                       deactivate=obj_daemon.deactivate)
         return actions[command]()
