@@ -4,12 +4,17 @@
 #
 import os
 import hashlib
+import socket
 import simplejson as json
+import psutil
+import platform
 from flask import request
-from flask.ext.restful import Resource
+from flask.ext.restful import Resource, abort
 from irianas_client.system.basic_task_system import ShuttingSystem
 from irianas_client.system.monitor_system import MonitorSystem
 from irianas_client.decorators import require_token, path_file_token
+
+ip_server = socket.gethostbyname(socket.gethostname())
 
 
 class TaskBasicAPI(Resource):
@@ -25,39 +30,47 @@ class TaskBasicAPI(Resource):
         elif action == 'hibernate':
             ShuttingSystem.hibernate()
         elif action == 'monitor':
-            monitor = dict(cpu=MonitorSystem.get_cpu_porcent(3),
-                           memory=MonitorSystem.get_memory_used(True),
-                           disk=MonitorSystem.get_disk_used(True))
+            monitor = dict(cpu=int(MonitorSystem.get_cpu_porcent(3)),
+                           memory=int(MonitorSystem.get_memory_used(True)),
+                           disk=int(MonitorSystem.get_disk_used(True)))
             return monitor
+
+
+class ClientInfoAPI(Resource):
+    method_decorators = [require_token]
+
+    def get(self):
+        data = dict(host_name=platform.node(),
+                    arch=platform.machine(),
+                    os=platform.version(),
+                    memory=psutil.virtual_memory()[0])
+        return data
 
 
 class ConnectAPI(Resource):
     m = hashlib.sha512()
 
+    @require_token
     def get(self):
-        if request.form.get('ip') and request.form.get('token'):
-            if os.path.exists(path_file_token):
-                os.remove(path_file_token)
-                if not os.path.exists(path_file_token):
-                    return dict(logout='Ok')
-                else:
-                    return dict(logout='Not')
+        if os.path.exists(path_file_token):
+            os.remove(path_file_token)
+            if not os.path.exists(path_file_token):
+                return dict(logout=1)
             else:
-                return dict(logout='Not')
+                return dict(logout=0)
+        else:
+            return dict(logout=1)
 
     def post(self):
         if request.form.get('ip'):
-            if request.form.get('token'):
-                token = hashlib.sha512(request.form.get('token')).hexdigest()
             ip = hashlib.sha512(request.form.get('ip')).hexdigest()
 
             if os.path.exists(path_file_token):
-                file_token = open(path_file_token)
-                tokens = json.loads(file_token.read())
-                if tokens['token'] == token and tokens['ip'] == ip:
-                    return dict(connected=1)
+                if request.form.get('token'):
+                    token = hashlib.sha512(request.form['token']).hexdigest()
                 else:
-                    return dict(connected=0)
+                    return abort(401)
+
             else:
                 token_rand = os.urandom(64).encode('hex')
                 token = hashlib.sha512(token_rand).hexdigest()
