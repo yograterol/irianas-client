@@ -28,9 +28,9 @@ class TaskBasicAPI(Resource):
         elif action == 'hibernate':
             ShuttingSystem.hibernate()
         elif action == 'monitor':
-            monitor = dict(cpu=MonitorSystem.get_cpu_porcent(3),
-                           memory=MonitorSystem.get_memory_used(True),
-                           disk=MonitorSystem.get_disk_used(True))
+            monitor = dict(cpu=int(MonitorSystem.get_cpu_porcent(3)),
+                           memory=int(MonitorSystem.get_memory_used(True)),
+                           disk=int(MonitorSystem.get_disk_used(True)))
             return monitor
 
 
