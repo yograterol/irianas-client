@@ -69,7 +69,8 @@ def main():
     # Connection API
     api.add_resource(ConnectAPI, '/api/connect')
 
-    app.run(debug=debug, ssl_context=context, port=9000, host='0.0.0.0')
+    app.run(debug=debug, ssl_context=context, port=9000, host='0.0.0.0',
+            threaded=True)
 
 if __name__ == '__main__':
     main()
