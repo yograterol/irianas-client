@@ -6,6 +6,8 @@ import os
 import hashlib
 import socket
 import simplejson as json
+import psutil
+import platform
 from flask import request
 from flask.ext.restful import Resource, abort
 from irianas_client.system.basic_task_system import ShuttingSystem
@@ -32,6 +34,17 @@ class TaskBasicAPI(Resource):
                            memory=int(MonitorSystem.get_memory_used(True)),
                            disk=int(MonitorSystem.get_disk_used(True)))
             return monitor
+
+
+class ClientInfoAPI(Resource):
+    method_decorators = [require_token]
+
+    def get(self):
+        data = dict(host_name=platform.node(),
+                    arch=platform.machine(),
+                    os=platform.version(),
+                    memory=psutil.virtual_memory()[0])
+        return data
 
 
 class ConnectAPI(Resource):
