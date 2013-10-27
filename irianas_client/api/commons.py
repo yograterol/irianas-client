@@ -18,9 +18,13 @@ class APICommon(restful.Resource):
         if action == 'installed':
             return dict(installed=obj_yum.info(self.services))
         elif action == 'install':
-            return dict(installed=self.obj_services.install())
+            data = dict(installed=self.obj_services.install())
+            self.obj_services.activate()
+            return data
         elif action == 'remove':
-            return dict(remove=self.obj_services.remove())
+            data = dict(remove=self.obj_services.remove())
+            self.obj_services.deactivate()
+            return data
         elif action == 'start':
             self.obj_services.start()
         elif action == 'restart':
@@ -30,7 +34,7 @@ class APICommon(restful.Resource):
         elif action == 'activate':
             self.obj_services.activate()
         elif action == 'deactivate':
-            self.obj_services.activate()
+            self.obj_services.deactivate()
 
         status = dict()
         if self.obj_services.get_status():
