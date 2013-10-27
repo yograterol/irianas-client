@@ -27,6 +27,10 @@ class APICommon(restful.Resource):
             self.obj_services.restart()
         elif action == 'stop':
             self.obj_services.stop()
+        elif action == 'activate':
+            self.obj_services.activate()
+        elif action == 'deactivate':
+            self.obj_services.activate()
 
         status = dict()
         if self.obj_services.get_status():
