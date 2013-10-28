@@ -52,7 +52,7 @@ class SSHDServiceAPI(APICommon):
     """
 
     """
-    path = config_irianas['sshd-service']['path_folder_config']
+    path = config_irianas['sshd-service']['path_config_file']
     method_decorators = [require_token]
 
     def __init__(self):
