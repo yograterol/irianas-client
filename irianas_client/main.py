@@ -9,7 +9,8 @@ from flask import Flask
 from flask.ext import restful
 from irianas_client.api.api_services import \
     (ApacheServiceAPI, MySQLServiceAPI, vsFTPServiceAPI, BINDServiceAPI,
-     ApacheConfigAPI, MySQLConfigAPI, BINDConfigAPI, vsFTPConfigAPI)
+     ApacheConfigAPI, MySQLConfigAPI, BINDConfigAPI, vsFTPConfigAPI,
+     SSHDServiceAPI)
 from irianas_client.api.api_task_basic import \
     (TaskBasicAPI, ConnectAPI, ClientInfoAPI)
 
@@ -43,6 +44,10 @@ def main():
                      api_services + 'apache')
 
     api.add_resource(ApacheConfigAPI, api_services_conf + 'apache')
+
+    # SSHD API
+    api.add_resource(SSHDServiceAPI, api_services + 'ssh/<string:action>',
+                     api_services + 'ssh')
 
     # MySQL API
     api.add_resource(MySQLServiceAPI, api_services + 'mysql/<string:action>',
