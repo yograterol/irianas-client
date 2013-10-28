@@ -56,6 +56,9 @@ class APIConfigCommmon(restful.Resource):
         self.obj_services = obj_services
         self.services = services
 
+    def get(self):
+        return self.obj_services.get_dict_params()
+
     def put(self):
         if request.form:
             for key, value in request.form.iteritems():

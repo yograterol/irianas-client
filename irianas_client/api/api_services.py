@@ -170,6 +170,13 @@ class ApacheConfigAPI(APIConfigCommmon):
         super(ApacheConfigAPI, self).__init__(HTTPDService(), 'apache-service')
 
 
+class SSHDConfigAPI(APIConfigCommmon):
+    method_decorators = [require_token]
+
+    def __init__(self):
+        super(SSHDConfigAPI, self).__init__(SSHDService(), 'sshd-service')
+
+
 class MySQLConfigAPI(APIConfigCommmon):
     method_decorators = [require_token]
 
