@@ -16,7 +16,7 @@ class YUMWrapper(object):
             return False
 
     def transaction(self, app, type_transaction='Install'):
-        if type_transaction == 'Install ':
+        if type_transaction == 'Install':
             os.system("yum install -y " + app + ' &')
         elif type_transaction == 'Remove':
             os.system("yum remove -y " + app + ' &')
