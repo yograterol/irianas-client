@@ -16,11 +16,19 @@ class APICommon(restful.Resource):
     def get(self, action='status'):
         obj_yum = YUMWrapper()
         if action == 'installed':
-            return dict(installed=obj_yum.info(self.services))
+            if obj_yum.info(self.services):
+                return dict(status_service=1)
+            return dict(status_service=0)
         elif action == 'install':
-            return dict(installed=self.obj_services.install())
+            if self.obj_services.install():
+                self.obj_services.activate()
+                return dict(status_service=1)
+            return dict(status_service=0)
         elif action == 'remove':
-            return dict(remove=self.obj_services.remove())
+            if self.obj_services.remove():
+                self.obj_services.deactivate()
+                return dict(status_service=1)
+            return dict(status_service=0)
         elif action == 'start':
             self.obj_services.start()
         elif action == 'restart':
@@ -30,7 +38,7 @@ class APICommon(restful.Resource):
         elif action == 'activate':
             self.obj_services.activate()
         elif action == 'deactivate':
-            self.obj_services.activate()
+            self.obj_services.deactivate()
 
         status = dict()
         if self.obj_services.get_status():
@@ -48,12 +56,16 @@ class APIConfigCommmon(restful.Resource):
         self.obj_services = obj_services
         self.services = services
 
+    def get(self):
+        return self.obj_services.get_dict_params()
+
     def put(self):
         if request.form:
             for key, value in request.form.iteritems():
                 self.obj_services.set(key, value)
             path = config_irianas[self.services]['path_config_file']
             self.obj_services.save_attr(path)
-            return dict(result="Saved")
+            self.obj_services.restart()
+            return dict(result=1)
         else:
-            return dict(result="NotSaved")
+            return dict(result=0)

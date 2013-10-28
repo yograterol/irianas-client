@@ -35,6 +35,9 @@ class CommonService(object):
     def set(self, attr, value):
         self.__setattr__(attr, value)
 
+    def get_dict_params(self):
+        return self.config_params
+
     def install(self, package=None):
         yum = YUMWrapper()
         if not package:

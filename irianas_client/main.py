@@ -9,7 +9,8 @@ from flask import Flask
 from flask.ext import restful
 from irianas_client.api.api_services import \
     (ApacheServiceAPI, MySQLServiceAPI, vsFTPServiceAPI, BINDServiceAPI,
-     ApacheConfigAPI, MySQLConfigAPI, BINDConfigAPI, vsFTPConfigAPI)
+     ApacheConfigAPI, MySQLConfigAPI, BINDConfigAPI, vsFTPConfigAPI,
+     SSHDServiceAPI, SSHDConfigAPI)
 from irianas_client.api.api_task_basic import \
     (TaskBasicAPI, ConnectAPI, ClientInfoAPI)
 
@@ -38,11 +39,17 @@ except SSL.Error:
 def main():
     app = Flask(__name__)
     api = restful.Api(app)
-    # Apache API
+    # Apache API SSHDConfigAPI
     api.add_resource(ApacheServiceAPI, api_services + 'apache/<string:action>',
                      api_services + 'apache')
 
     api.add_resource(ApacheConfigAPI, api_services_conf + 'apache')
+
+    # SSHD API
+    api.add_resource(SSHDServiceAPI, api_services + 'ssh/<string:action>',
+                     api_services + 'ssh')
+
+    api.add_resource(SSHDConfigAPI, api_services_conf + 'ssh')
 
     # MySQL API
     api.add_resource(MySQLServiceAPI, api_services + 'mysql/<string:action>',

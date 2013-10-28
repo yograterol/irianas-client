@@ -10,6 +10,7 @@ from irianas_client.services.webserver.apache import HTTPDService
 from irianas_client.services.database.mysql import MySQLService
 from irianas_client.services.ftp.vsftp import vsFTPService
 from irianas_client.services.dns.bind import BINDService
+from irianas_client.services.ssh.sshd import SSHDService
 from irianas_client.api.commons import (APICommon, APIConfigCommmon)
 from irianas_client.decorators import require_token
 
@@ -45,6 +46,26 @@ class ApacheServiceAPI(APICommon):
                 return dict(vhost_status='Removed')
             else:
                 return dict(vhost_status='NotRemoved')
+
+
+class SSHDServiceAPI(APICommon):
+    """
+
+    """
+    path = config_irianas['sshd-service']['path_config_file']
+    method_decorators = [require_token]
+
+    def __init__(self):
+        super(SSHDServiceAPI, self).__init__(SSHDService(), 'openssh')
+
+    def post(self, action):
+        pass
+
+    def put(self):
+        pass
+
+    def delete(self):
+        pass
 
 
 class MySQLServiceAPI(APICommon):
@@ -147,6 +168,13 @@ class ApacheConfigAPI(APIConfigCommmon):
 
     def __init__(self):
         super(ApacheConfigAPI, self).__init__(HTTPDService(), 'apache-service')
+
+
+class SSHDConfigAPI(APIConfigCommmon):
+    method_decorators = [require_token]
+
+    def __init__(self):
+        super(SSHDConfigAPI, self).__init__(SSHDService(), 'sshd-service')
 
 
 class MySQLConfigAPI(APIConfigCommmon):
