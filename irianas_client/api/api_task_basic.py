@@ -8,11 +8,13 @@ import socket
 import simplejson as json
 import psutil
 import platform
+import thread
 from flask import request
 from flask.ext.restful import Resource, abort
 from irianas_client.system.basic_task_system import ShuttingSystem
 from irianas_client.system.monitor_system import MonitorSystem
 from irianas_client.decorators import require_token, path_file_token
+from irianas_client.yumwrap.yumwrapper import YUMWrapper
 
 ip_server = socket.gethostbyname(socket.gethostname())
 
@@ -29,6 +31,8 @@ class TaskBasicAPI(Resource):
             ShuttingSystem.suspend()
         elif action == 'hibernate':
             ShuttingSystem.hibernate()
+        elif action == 'update':
+            thread.start_new_thread(YUMWrapper().update_system(), ())
         elif action == 'monitor':
             monitor = dict(cpu=int(MonitorSystem.get_cpu_porcent(3)),
                            memory=int(MonitorSystem.get_memory_used(True)),

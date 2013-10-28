@@ -24,3 +24,6 @@ class YUMWrapper(object):
         elif type_transaction == 'Update':
             os.system("yum update -y" + app)
         return self.info(app)
+
+    def update_system(self):
+        os.system("yum update -y")
