@@ -65,6 +65,7 @@ class APIConfigCommmon(restful.Resource):
                 self.obj_services.set(key, value)
             path = config_irianas[self.services]['path_config_file']
             self.obj_services.save_attr(path)
+            self.obj_services.restart()
             return dict(result=1)
         else:
             return dict(result=0)
