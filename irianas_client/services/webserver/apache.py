@@ -501,11 +501,6 @@ LogLevel warn
 # The following directives define some format nicknames for use with
 # a CustomLog directive (see below).
 #
-LogFormat "%h %l %u %t \"%r\" %>s %b \"%{{Referer}}i\" \"%{{User-Agent}}i\""
-combined
-LogFormat "%h %l %u %t \"%r\" %>s %b" common
-LogFormat "%{{Referer}}i -> %U" referer
-LogFormat "%{{User-agent}}i" agent
 
 #
 # The location and format of the access logfile (Common Logfile Format).
