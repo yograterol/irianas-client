@@ -13,7 +13,8 @@ config_basic = {
         "datadir": "/var/lib/mysql",
         "socket": "/var/lib/mysql/mysql.sock",
         "user": "mysql",
-        "symbolic-links": 0},
+        "symbolic-links": 0,
+        "bind-address": "0.0.0.0"},
     "mysqld_safe":
     {
         "log-error": "/var/log/mysqld.log",
@@ -45,30 +46,29 @@ params_valid = ["bind-address", "binlog_cache_size", "bulk_insert_buffer_size",
 params_default = {
     "mysqld":
     {
-        "bind-address": "0.0.0.0",
         "binlog_cache_size": 32768,
         "bulk_insert_buffer_size": 8388608,
         "connect_timeout": 10,
         "completion_type": 0,
-        "concurrent_insert": True,
+        "concurrent_insert": "ON",
         "innodb_additional_mem_pool_size": 1048576,
         "innodb_autoextend_increment": 8,
         "innodb_buffer_pool_awe_mem_mb": 0,
         "innodb_buffer_pool_size": 8388608,
-        "innodb_checksums": True,
+        "innodb_checksums": "ON",
         "innodb_commit_concurrency": 0,
         "innodb_concurrency_tickets": 500,
         "innodb_data_file_path": "ibdata1:10M:autoextend",
         "innodb_fast_shutdown": 1,
         "innodb_file_io_threads": 4,
-        "innodb_file_per_table": False,
+        "innodb_file_per_table": "OFF",
         "innodb_flush_log_at_trx_commit": 1,
         "innodb_force_recovery": 0,
         "innodb_lock_wait_timeout": 50,
-        "innodb_locks_unsafe_for_binlog": False,
+        "innodb_locks_unsafe_for_binlog": "OFF",
         "join_buffer_size": 131072,
         "interactive_timeout": 28800,
-        "keep_files_on_create": False,
+        "keep_files_on_create": "OFF",
         "key_buffer_size": 8388608,
         "key_cache_age_threshold": 300,
         "key_cache_block_size": 1024,
@@ -151,3 +151,6 @@ class MySQLService(CommonService):
     def save_attr(self, path):
         obj_mysql_config_file = MySQLConfigFile()
         obj_mysql_config_file.execute_config(path)
+
+    def get_dict_params(self):
+        return params_default["mysqld"]

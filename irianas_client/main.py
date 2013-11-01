@@ -76,6 +76,11 @@ def main():
     # Connection API
     api.add_resource(ConnectAPI, '/api/connect')
 
+    app.config.update(
+        DEBUG=True,
+        PROPAGATE_EXCEPTIONS=True
+    )
+
     app.run(debug=debug, ssl_context=context, port=9000, host='0.0.0.0',
             threaded=True)
 

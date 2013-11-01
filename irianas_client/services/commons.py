@@ -41,8 +41,10 @@ class CommonService(object):
     def install(self, package=None):
         yum = YUMWrapper()
         if not package:
-            return yum.transaction(self.app['name_package'])
-        return yum.transaction(package)
+            result = yum.transaction(self.app['name_package'])
+        result = yum.transaction(package)
+        self.activate()
+        return result
 
     def remove(self, package=None):
         yum = YUMWrapper()
